@@ -1,7 +1,12 @@
+using Microsoft.EntityFrameworkCore;
+using DVDMovie.Models;
+using DVDMovie;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(builder.Configuration["Data:Movies:ConnectionString"]));
+builder.Services.AddTransient<SeedData>();
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
@@ -16,7 +21,6 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
-
 
 app.MapControllerRoute(
     name: "default",
